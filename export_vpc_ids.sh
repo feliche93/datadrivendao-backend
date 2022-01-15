@@ -1,0 +1,6 @@
+export VPC=$(aws ec2 describe-vpcs --filters Name=is-default,Values=true)
+export VPC_ID=$(echo $VPC | jq -r '.Vpcs | .[0].VpcId')
+SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values=$VPC_ID --region $AWS_REGION)
+export SUBNET1=$(echo $SUBNETS | jq -r '.Subnets | .[0].SubnetId')
+export SUBNET2=$(echo $SUBNETS | jq -r '.Subnets | .[1].SubnetId')
+export SUBNET3=$(echo $SUBNETS | jq -r '.Subnets | .[2].SubnetId')

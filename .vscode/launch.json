@@ -1,0 +1,55 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${PYTHONPATH}:/home/maxepstein/myproject/"
+            }
+        },
+        {
+            "name": "Python: LinkedIn Module",
+            "type": "python",
+            "request": "launch",
+            "module": "social_notion.linkedin.linkedin",
+        },
+        {
+            "name": "Python: Main Module",
+            "type": "python",
+            "request": "launch",
+            "module": "social_notion.main",
+        },
+        {
+            "name": "Python: register_flow",
+            "type": "python",
+            "request": "launch",
+            "module": "flows.register_flow",
+        },
+        {
+            "name": "Python: local_run",
+            "type": "python",
+            "request": "launch",
+            "module": "flows.local_run",
+        },
+        {
+            "name": "Prefect: create_posts",
+            "type": "python",
+            "request": "launch",
+            "module": "flows.create_posts",
+        },
+        {
+            "name": "Python: schedule_posts",
+            "type": "python",
+            "request": "launch",
+            "module": "flows.schedule_posts",
+        }
+    ]
+}

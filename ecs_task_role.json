@@ -1,4 +1,3 @@
-cat <<EOF >ecs_task_role.json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -35,4 +34,3 @@ cat <<EOF >ecs_task_role.json
         }
     ]
 }
-EOF

@@ -1,4 +1,3 @@
-cat <<EOF >ecs_tasks_trust_policy.json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -13,4 +12,3 @@ cat <<EOF >ecs_tasks_trust_policy.json
     }
   ]
 }
-EOF

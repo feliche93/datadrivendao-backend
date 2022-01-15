@@ -1,0 +1,8 @@
+python-dotenv
+requests
+types-requests
+pydantic
+supabase-py
+prefect
+boto3
+prefect

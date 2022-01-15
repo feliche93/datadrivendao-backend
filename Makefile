@@ -6,13 +6,12 @@ help:
 
 setup:
 	(\
-		pyenv virtualenv social-notion; \
-		. ~/.pyenv/versions/social-notion/bin/activate ; \
+		pyenv virtualenv datadrivendao; \
+		. ~/.pyenv/versions/datadrivendao/bin/activate ; \
 		python3 -m pip install -U pip; \
 		python -m pip install pip-tools; \
 		python -m pip install --upgrade pip; \
 		pip-compile requirements.in; \
-		pip-compile requirements-dev.in; \
 		pip-compile requirements-dev.in; \
 		pre-commit install; \
 		pip3 install -r requirements-dev.txt -r requirements.txt; \
@@ -25,16 +24,16 @@ format:
 	pre-commit run --all-files
 
 ssh:
-	ssh -i ~/.ssh/social-notion.pem ubuntu@18.195.95.95
+	ssh -i ~/.ssh/datadrivendao.pem ubuntu@18.195.95.95
 
 rsync:
-	rsync -avP -e "ssh -i ~/.ssh/social-notion.pem" . ubuntu@18.195.95.95:~/social_notion
+	rsync -avP -e "ssh -i ~/.ssh/datadrivendao.pem" . ubuntu@18.195.95.95:~/social_notion
 
 build-image:
-	docker build . -t social-notion:latest
+	docker build . -t datadrivendao:latest
 
 delete-image:
-	docker rmi social-notion:latest
+	docker rmi datadrivendao:latest
 
 rebuild-image: delete-image build-image
 
@@ -42,10 +41,10 @@ login-ecr:
 	aws ecr get-login-password | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
 
 push-ecr:
-	aws ecr describe-repositories --repository-names social-notion || aws ecr create-repository --repository-name social-notion
-	docker tag "social-notion:latest" "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/social-notion:latest"
+	aws ecr describe-repositories --repository-names datadrivendao || aws ecr create-repository --repository-name datadrivendao
+	docker tag "datadrivendao:latest" "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/datadrivendao:latest"
 	aws ecr get-login-password | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
-	docker push "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/social-notion:latest"
+	docker push "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/datadrivendao:latest"
 
 # prefect ECS Setup
 # https://towardsdatascience.com/how-to-cut-your-aws-ecs-costs-with-fargate-spot-and-prefect-1a1ba5d2e2df#2587

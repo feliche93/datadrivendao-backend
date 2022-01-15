@@ -112,3 +112,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+prefect_ecs_agent_deploy_script.sh

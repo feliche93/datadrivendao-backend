@@ -2,6 +2,9 @@
 
 from prefect.run_configs import ECSRun
 from prefect.storage import Docker
+from prefect import task, Flow
+import prefect
+
 
 RUN_CONFIG = ECSRun(
     image="262367897508.dkr.ecr.eu-central-1.amazonaws.com/datadrivendao:latest",

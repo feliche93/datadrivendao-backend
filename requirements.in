@@ -6,3 +6,7 @@ supabase-py
 prefect
 boto3
 prefect
+pandas
+pyarrow
+fastparquet
+awswrangler

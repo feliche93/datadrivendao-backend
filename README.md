@@ -33,3 +33,11 @@ docker-compose up
 ### Airbyte JSON Service Account
 
 `datadrivendao-42c52b51132d.json`
+
+### Airbyte Schema
+
+```json
+{"id": "string", "name": "string", "about": "string", "network": "string", "symbol": "string", "twitter": "string", "domain": "string", "avatar": "string", "email": "string", "private": "boolean", "location": "string", "github": "string", "website": "string", "terms": "string", "scraped_at": "string"}
+
+{"index": "string", "categories":"array", "networks": "number", "strategies": "number", "skins": "number", "plugins": "number", "validations": "number", "name": "string", "avatar": "string", "network": "number", "item": "string", "proposals": "number", "followers": "number", "activeProposals": "number", "private": "boolean", "terms": "string", "followers_1d": "number", "voters_1d": "number", "proposals_1d": "number", "scraped_at": "string"}
+```

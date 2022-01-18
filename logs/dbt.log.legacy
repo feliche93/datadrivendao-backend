@@ -2050,3 +2050,31 @@ FROM combined
 2022-01-18 10:17:17.672286 (Thread-137): handling status request
 2022-01-18 10:17:17.673939 (Thread-137): 10:17:17  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e1b5250>]}
 2022-01-18 10:17:17.674500 (Thread-137): sending response (<Response 2000 bytes [200 OK]>) to 10.0.35.226
+2022-01-18 10:17:20.143011 (Thread-138): 10:17:20  Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+2022-01-18 10:17:20.143228 (Thread-138): 10:17:20  Partial parsing enabled, no changes found, skipping parsing
+2022-01-18 10:17:20.143670 (Thread-138): 10:17:20  [WARNING]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.data_driven_dao.marts
+
+2022-01-18 10:17:20.148604 (Thread-138): 10:17:20  Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e0534f0>]}
+2022-01-18 10:17:20.675206 (Thread-139): handling status request
+2022-01-18 10:17:20.675642 (Thread-139): 10:17:20  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e16a460>]}
+2022-01-18 10:17:20.676148 (Thread-139): sending response (<Response 1684 bytes [200 OK]>) to 10.0.35.226
+2022-01-18 10:17:21.020854 (Thread-140): handling status request
+2022-01-18 10:17:21.021220 (Thread-140): 10:17:21  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e1c2e20>]}
+2022-01-18 10:17:21.021682 (Thread-140): sending response (<Response 1684 bytes [200 OK]>) to 10.0.9.13
+2022-01-18 10:17:25.610792 (Thread-141): handling status request
+2022-01-18 10:17:25.611188 (Thread-141): 10:17:25  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e0c6f10>]}
+2022-01-18 10:17:25.611716 (Thread-141): sending response (<Response 1684 bytes [200 OK]>) to 10.0.1.71
+2022-01-18 10:17:25.637171 (Thread-142): handling status request
+2022-01-18 10:17:25.637513 (Thread-142): 10:17:25  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e0c61c0>]}
+2022-01-18 10:17:25.637891 (Thread-142): sending response (<Response 1684 bytes [200 OK]>) to 10.0.28.254
+2022-01-18 10:17:45.790945 (Thread-143): handling status request
+2022-01-18 10:17:45.791355 (Thread-143): 10:17:45  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e053a00>]}
+2022-01-18 10:17:45.791863 (Thread-143): sending response (<Response 1684 bytes [200 OK]>) to 10.0.1.71
+2022-01-18 10:17:45.832795 (Thread-144): handling status request
+2022-01-18 10:17:45.833166 (Thread-144): 10:17:45  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e053580>]}
+2022-01-18 10:17:45.833645 (Thread-144): sending response (<Response 1684 bytes [200 OK]>) to 10.0.8.103
+2022-01-18 10:17:56.163812 (Thread-145): handling status request
+2022-01-18 10:17:56.164193 (Thread-145): 10:17:56  Sending event: {'category': 'dbt', 'action': 'rpc_request', 'label': '90b11821-3d6f-48b0-a8a8-e82064d7ca9d', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f900e053fa0>]}
+2022-01-18 10:17:56.164689 (Thread-145): sending response (<Response 1684 bytes [200 OK]>) to 10.0.19.171

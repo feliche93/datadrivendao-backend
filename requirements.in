@@ -10,3 +10,6 @@ pandas
 pyarrow
 fastparquet
 awswrangler
+tweepy
+pandas-gbq
+google-auth

@@ -50,3 +50,6 @@ push-ecr:
 
 # prefect ECS Setup
 # https://towardsdatascience.com/how-to-cut-your-aws-ecs-costs-with-fargate-spot-and-prefect-1a1ba5d2e2df#2587
+
+connect-airbyte:
+	ssh -i ~/.ssh/datadrivendao-kp.pem -L 8000:localhost:8000 -N -f ubuntu@34.206.52.76

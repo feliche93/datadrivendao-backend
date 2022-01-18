@@ -1,52 +1,19 @@
-from cmath import log
-from datetime import datetime
-from math import ceil
 import requests
 import json
 import pandas as pd
 import math
 from prefect import task, Flow
-import prefect
-from datetime import datetime
-import awswrangler as wr
-import boto3
 from prefect.tasks.secrets import PrefectSecret
 from prefect.tasks.airbyte.airbyte import AirbyteConnectionTask
 
+from common import df_to_s3_parquet
 from flow_config import RUN_CONFIG, STORAGE
 
 FLOW_NAME = "extract_snapshot_data"
 
-airbyte_task = AirbyteConnectionTask(
-    airbyte_server_host="34.206.52.76",
-)
-
-@task(log_stdout=True)
-def df_to_s3_parquet(df, aws_credentials, bucket, file_name, service_name):
-
-    session = boto3.Session(
-        region_name="us-east-1",
-        aws_access_key_id=aws_credentials.get("ACCESS_KEY"),
-        aws_secret_access_key=aws_credentials.get("SECRET_ACCESS_KEY"),
-    )
-
-    date_path = f"{datetime.utcnow().strftime('%Y/%m/%d')}"
-    key = f"{service_name}/{date_path}/{file_name}.parquet"
-    bucket = "datadrivendao"
-    path = f"s3://{bucket}/{key}"
-
-    result = wr.s3.to_parquet(
-        df=df.reset_index(),
-        path=path,
-        # dataset=False,
-        boto3_session=session,
-        index=False,
-    )
-
-    print(f"Written parquet file to: {result['paths']}")
-
-    return result
-
+# airbyte_task = AirbyteConnectionTask(
+#     airbyte_server_host="34.206.52.76",
+# )
 
 @task(log_stdout=True)
 def extract_snapshot_expore_data():
@@ -173,13 +140,14 @@ with Flow(
         service_name="snapshot",
     )
 
-    loaded_explore = airbyte_task(
-        connection_id="f4d0f610-a053-4524-9e9b-c36ddd68915a"
-    ).set_upstream(result_explore)
+    # TODO: To be continued once ports secured
+    # loaded_explore = airbyte_task(
+    #     connection_id="f4d0f610-a053-4524-9e9b-c36ddd68915a"
+    # ).set_upstream(result_explore)
 
-    loaded_spaces = airbyte_task(
-        connection_id="6d7f919c-a20f-4f1f-91d0-6fe706dac10d"
-    ).set_upstream(result_spaces)
+    # loaded_spaces = airbyte_task(
+    #     connection_id="6d7f919c-a20f-4f1f-91d0-6fe706dac10d"
+    # ).set_upstream(result_spaces)
 
 if __name__ == "__main__":
     flow.register("datadrivendao")

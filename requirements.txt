@@ -23,6 +23,8 @@ botocore==1.23.37
     #   boto3
     #   redshift-connector
     #   s3transfer
+cachetools==4.2.4
+    # via google-auth
 certifi==2021.10.8
     # via
     #   httpx
@@ -65,8 +67,46 @@ fsspec==2022.1.0
     # via
     #   dask
     #   fastparquet
+google-api-core[grpc]==2.4.0
+    # via
+    #   google-cloud-bigquery
+    #   google-cloud-bigquery-storage
+    #   google-cloud-core
+google-auth==2.3.3
+    # via
+    #   -r requirements.in
+    #   google-api-core
+    #   google-auth-oauthlib
+    #   google-cloud-core
+    #   pandas-gbq
+    #   pydata-google-auth
+google-auth-oauthlib==0.4.6
+    # via
+    #   pandas-gbq
+    #   pydata-google-auth
+google-cloud-bigquery[bqstorage,pandas]==2.32.0
+    # via pandas-gbq
+google-cloud-bigquery-storage==2.11.0
+    # via google-cloud-bigquery
+google-cloud-core==2.2.1
+    # via google-cloud-bigquery
+google-crc32c==1.3.0
+    # via google-resumable-media
+google-resumable-media==2.1.0
+    # via google-cloud-bigquery
+googleapis-common-protos==1.54.0
+    # via
+    #   google-api-core
+    #   grpcio-status
 gotrue==0.2.0
     # via supabase-py
+grpcio==1.43.0
+    # via
+    #   google-api-core
+    #   google-cloud-bigquery
+    #   grpcio-status
+grpcio-status==1.43.0
+    # via google-api-core
 h11==0.12.0
     # via httpcore
 heapdict==1.0.1
@@ -89,6 +129,8 @@ jmespath==0.10.0
     #   botocore
 jsonpath-ng==1.5.3
     # via awswrangler
+libcst==0.4.0
+    # via google-cloud-bigquery-storage
 locket==0.2.1
     # via partd
 lxml==4.7.1
@@ -106,13 +148,18 @@ msgpack==1.0.3
     #   distributed
     #   prefect
 mypy-extensions==0.4.3
-    # via prefect
+    # via
+    #   prefect
+    #   typing-inspect
 numpy==1.22.1
     # via
     #   awswrangler
     #   fastparquet
     #   pandas
+    #   pandas-gbq
     #   pyarrow
+oauthlib==3.1.1
+    # via requests-oauthlib
 openpyxl==3.0.9
     # via awswrangler
 opensearch-py==1.0.0
@@ -122,6 +169,7 @@ packaging==21.3
     #   dask
     #   deprecation
     #   distributed
+    #   google-cloud-bigquery
     #   prefect
     #   pytest
     #   redshift-connector
@@ -130,6 +178,10 @@ pandas==1.3.5
     #   -r requirements.in
     #   awswrangler
     #   fastparquet
+    #   google-cloud-bigquery
+    #   pandas-gbq
+pandas-gbq==0.16.0
+    # via -r requirements.in
 partd==1.2.0
     # via dask
 pendulum==2.1.2
@@ -146,6 +198,17 @@ prefect==0.15.12
     # via -r requirements.in
 progressbar2==3.55.0
     # via awswrangler
+proto-plus==1.19.8
+    # via
+    #   google-cloud-bigquery
+    #   google-cloud-bigquery-storage
+protobuf==3.19.3
+    # via
+    #   google-api-core
+    #   google-cloud-bigquery
+    #   googleapis-common-protos
+    #   grpcio-status
+    #   proto-plus
 psutil==5.9.0
     # via distributed
 py==1.11.0
@@ -154,8 +217,18 @@ pyarrow==6.0.1
     # via
     #   -r requirements.in
     #   awswrangler
+    #   google-cloud-bigquery
+    #   pandas-gbq
+pyasn1==0.4.8
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.2.8
+    # via google-auth
 pydantic==1.9.0
     # via -r requirements.in
+pydata-google-auth==1.3.0
+    # via pandas-gbq
 pymysql==1.0.2
     # via awswrangler
 pyparsing==3.0.6
@@ -168,6 +241,7 @@ python-dateutil==2.8.2
     # via
     #   botocore
     #   croniter
+    #   google-cloud-bigquery
     #   pandas
     #   pendulum
     #   prefect
@@ -189,6 +263,7 @@ pyyaml==6.0
     # via
     #   dask
     #   distributed
+    #   libcst
     #   prefect
 realtime-py==0.1.3
     # via supabase-py
@@ -198,14 +273,24 @@ requests==2.25.1
     # via
     #   -r requirements.in
     #   docker
+    #   google-api-core
+    #   google-cloud-bigquery
     #   prefect
     #   redshift-connector
     #   requests-aws4auth
+    #   requests-oauthlib
     #   supabase-py
+    #   tweepy
 requests-aws4auth==1.1.1
     # via awswrangler
+requests-oauthlib==1.3.0
+    # via
+    #   google-auth-oauthlib
+    #   tweepy
 rfc3986[idna2008]==1.5.0
     # via httpx
+rsa==4.8
+    # via google-auth
 s3transfer==0.5.0
     # via boto3
 scramp==1.4.1
@@ -214,6 +299,8 @@ scramp==1.4.1
     #   redshift-connector
 six==1.16.0
     # via
+    #   google-auth
+    #   grpcio
     #   jsonpath-ng
     #   progressbar2
     #   python-dateutil
@@ -248,12 +335,19 @@ toolz==0.11.2
     #   partd
 tornado==6.1
     # via distributed
+tweepy==4.4.0
+    # via -r requirements.in
 types-requests==2.27.7
     # via -r requirements.in
 types-urllib3==1.26.7
     # via types-requests
 typing-extensions==4.0.1
-    # via pydantic
+    # via
+    #   libcst
+    #   pydantic
+    #   typing-inspect
+typing-inspect==0.7.1
+    # via libcst
 urllib3==1.26.8
     # via
     #   botocore

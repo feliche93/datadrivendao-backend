@@ -42,6 +42,6 @@ docker-compose up
 {"index": "string", "categories":"array", "networks": "number", "strategies": "number", "skins": "number", "plugins": "number", "validations": "number", "name": "string", "avatar": "string", "network": "number", "item": "string", "proposals": "number", "followers": "number", "activeProposals": "number", "private": "boolean", "terms": "string", "followers_1d": "number", "voters_1d": "number", "proposals_1d": "number", "scraped_at": "string"}
 ```
 
-### DBT Service Account Key
+### DBT Service Account Key (Also uses for prefect)
 
 `datadrivendao-6fb3e2a14f62.json`

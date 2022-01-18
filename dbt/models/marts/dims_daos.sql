@@ -1,37 +1,60 @@
-WITH explore AS (
+WITH snapshot_explore AS (
     SELECT * 
     FROM {{ source('raw_data', 'snapshot_explore') }}
 ),
 
-spaces AS (
+snapshot_spaces AS (
     SELECT *
     FROM {{ source('raw_data', 'snapshot_spaces') }}
 ),
 
-missing_screen_names AS (
+twitter_screen_names AS (
     SELECT *
     FROM {{ source('raw_data', 'twitter_screen_names') }}
+),
+
+twitter_users AS (
+    SELECT *
+    FROM {{ source('raw_data', 'twitter_users') }}
 ),
 
 combined AS (
 
     SELECT
-        spaces.id,
-        spaces.name, 
-        spaces.symbol,
-        spaces.about,
-        COALESCE(spaces.twitter, missing_screen_names.twitter) AS twitter,
-        spaces.github,
-        spaces.website,
-        spaces.avatar,
-        spaces.network
-    FROM explore
-    LEFT JOIN spaces ON explore.index = spaces.id 
-    LEFT JOIN missing_screen_names ON missing_screen_names.id = spaces.id
+        snapshot_spaces.id,
+        snapshot_spaces.name, 
+        snapshot_spaces.symbol,
+        snapshot_spaces.about,
+        COALESCE(snapshot_spaces.twitter, twitter_screen_names.twitter) AS twitter,
+        snapshot_spaces.github,
+        snapshot_spaces.website,
+        snapshot_spaces.avatar,
+        snapshot_spaces.network
+    FROM snapshot_explore
+    LEFT JOIN snapshot_spaces ON snapshot_explore.index = snapshot_spaces.id 
+    LEFT JOIN twitter_screen_names ON twitter_screen_names.id = snapshot_spaces.id
     ORDER BY followers DESC
+    -- currently only focusing on 500 DAOs
     LIMIT 500
+
+),
+
+final AS (
+
+   SELECT
+        combined.id,
+        combined.name, 
+        symbol,
+        COALESCE(twitter_users.description, about) AS combined_about,
+        twitter,
+        github,
+        website,
+        avatar,
+        network
+    FROM combined
+    LEFT JOIN twitter_users ON combined.twitter = twitter_users.screen_name
 
 )
 
 SELECT *
-FROM combined
+FROM final

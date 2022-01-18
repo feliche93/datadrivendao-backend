@@ -17,3 +17,4 @@ sources:
       - name: snapshot_explore
       - name: snapshot_spaces
       - name: twitter_screen_names
+      - name: twitter_users

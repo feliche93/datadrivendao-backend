@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw_data
+    schema: raw_data
+    # loaded_at_field: _loaded_at # configure for all sources
+    # meta fields are rendered in auto-generated documentation
+    meta:
+      contains_pii: false
+      owner: "@felix"
+
+    # Add tags to this source
+    tags:
+      - snapshot
+
+    tables:
+      - name: snapshot_explore
+      - name: snapshot_spaces

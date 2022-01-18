@@ -3,9 +3,7 @@ import awswrangler as wr
 import boto3
 from prefect import task
 from datetime import datetime
-from cmath import log
 from datetime import datetime
-from math import ceil
 
 @task(log_stdout=True)
 def df_to_s3_parquet(df, aws_credentials, bucket, file_name, service_name):

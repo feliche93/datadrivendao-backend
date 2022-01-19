@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH snapshot_explore AS (
     SELECT * 
     FROM {{ source('raw_data', 'snapshot_explore') }}
@@ -41,7 +43,7 @@ combined AS (
 
 final AS (
 
-   SELECT
+   SELECT DISTINCT
         combined.id,
         combined.name, 
         symbol,

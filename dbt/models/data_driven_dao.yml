@@ -18,3 +18,7 @@ sources:
       - name: snapshot_spaces
       - name: twitter_screen_names
       - name: twitter_users
+
+models:
+  - name: dim_daos
+  - name: fct_twitter_account

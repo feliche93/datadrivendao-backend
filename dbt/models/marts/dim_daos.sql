@@ -47,8 +47,18 @@ final AS (
         combined.id,
         combined.name, 
         symbol,
-        COALESCE(twitter_users.description, about) AS combined_about,
+        COALESCE(twitter_users.description, about) AS about,
         twitter,
+        CAST(
+            PARSE_TIMESTAMP(
+                "%a %b %d %H:%M:%S %Y",
+                CONCAT(
+                    SUBSTR(twitter_users.created_at, 0, 19),
+                    ' ',
+                    SUBSTR(twitter_users.created_at, 27, 4)
+                    )
+            ) AS DATE
+        ) AS twitter_created_date,
         github,
         website,
         avatar,

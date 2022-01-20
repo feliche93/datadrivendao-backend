@@ -27,10 +27,11 @@ combined AS (
         snapshot_spaces.name, 
         snapshot_spaces.symbol,
         snapshot_spaces.about,
+        snapshot_spaces.location,
         COALESCE(snapshot_spaces.twitter, twitter_screen_names.twitter) AS twitter,
         snapshot_spaces.github,
         snapshot_spaces.website,
-        snapshot_spaces.avatar,
+        REGEXP_REPLACE(snapshot_spaces.avatar, r'ipfs://', r'https://ipfs.io/ipfs/') AS avatar,
         snapshot_spaces.network
     FROM snapshot_explore
     LEFT JOIN snapshot_spaces ON snapshot_explore.index = snapshot_spaces.id 
@@ -46,9 +47,13 @@ final AS (
    SELECT DISTINCT
         combined.id,
         combined.name, 
-        symbol,
-        COALESCE(twitter_users.description, about) AS about,
-        twitter,
+        combined.symbol,
+        COALESCE(combined.location, twitter_users.location) AS location,
+        CASE 
+            WHEN combined.about = '' THEN twitter_users.description
+            ELSE combined.about
+        END AS about,
+        combined.twitter,
         CAST(
             PARSE_TIMESTAMP(
                 "%a %b %d %H:%M:%S %Y",
@@ -59,10 +64,13 @@ final AS (
                     )
             ) AS DATE
         ) AS twitter_created_date,
-        github,
-        website,
-        avatar,
-        network
+        combined.github,
+        combined.website,
+        CASE 
+            WHEN combined.avatar = '' THEN REPLACE(twitter_users.profile_image_url, '_normal','')
+            ELSE combined.avatar
+        END AS avatar,
+        combined.network
     FROM combined
     LEFT JOIN twitter_users ON combined.twitter = twitter_users.screen_name
 

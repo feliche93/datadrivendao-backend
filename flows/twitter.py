@@ -81,6 +81,11 @@ def get_users(api, df):
         # except tweepy.TweepError as e:
         #     print(f"An error occurred: {e}")
 
+        list_type_columns = df_users.applymap(lambda x: isinstance(x, list)).any()
+        list_type_columns = list_type_columns.index[list_type_columns].to_list()
+
+        df_users.drop(columns=list_type_columns, inplace=True)
+
     return df_users
 
 
@@ -108,16 +113,17 @@ with Flow(
 
     df_daos = get_dims_daos(service_account_info=google_service_account)
 
+    df_missing_tiwtter_names = get_missing_twitter_names(df=df_daos, api=api)
     df_users = get_users(api, df_daos)
 
 
-    # result_daos = df_to_s3_parquet(
-    #     df_daos,
-    #     aws_credentials,
-    #     bucket="datadrivendao",
-    #     file_name="twitter_screen_names",
-    #     service_name="twitter",
-    # )
+    result_missing_names = df_to_s3_parquet(
+        df_missing_tiwtter_names,
+        aws_credentials,
+        bucket="datadrivendao",
+        file_name="twitter_screen_names",
+        service_name="twitter",
+    )
 
     result_users = df_to_s3_parquet(
         df_users,
@@ -126,3 +132,7 @@ with Flow(
         file_name="twitter_users",
         service_name="twitter",
     )
+
+if __name__ == "__main__":
+    # flow.run()
+    flow.register(project_name="datadrivendao")

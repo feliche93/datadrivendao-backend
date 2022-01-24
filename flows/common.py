@@ -4,9 +4,13 @@ import boto3
 from prefect import task
 from datetime import datetime
 from datetime import datetime
+import pandas as pd
 
 @task(log_stdout=True)
 def df_to_s3_parquet(df, aws_credentials, bucket, file_name, service_name):
+
+    # adding scraped timestamp
+    df["scraped_at"] = pd.Timestamp.utcnow()
 
     session = boto3.Session(
         region_name="us-east-1",

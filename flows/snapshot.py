@@ -36,8 +36,6 @@ def extract_snapshot_expore_data():
     data = pd.DataFrame(json_data).drop(columns=["spaces"])
 
     explore_data = data.join(spaces)
-    explore_data["scraped_at"] = pd.Timestamp.utcnow()
-
     numeric_cols = [
         "network",
         "proposals",
@@ -109,7 +107,6 @@ def extract_multiple_spaces_data(explore_data):
         skip += increase
 
     spaces_data.set_index("id", inplace=True)
-    spaces_data["scraped_at"] = pd.Timestamp.utcnow()
 
     return spaces_data
 

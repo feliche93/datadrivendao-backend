@@ -26,7 +26,9 @@ def df_to_s3_parquet(df, aws_credentials, bucket, file_name, service_name):
     result = wr.s3.to_parquet(
         df=df.reset_index(),
         path=path,
-        # dataset=False,
+        pyarrow_additional_kwargs={
+            'coerce_timestamps': 'ms',
+        },
         boto3_session=session,
         index=False,
     )

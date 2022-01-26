@@ -13,3 +13,8 @@ awswrangler
 tweepy
 pandas-gbq
 google-auth
+beautifulsoup4
+selenium
+webdriver-manager
+selenium-wire
+undetected_chromedriver

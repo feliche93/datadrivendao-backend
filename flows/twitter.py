@@ -67,6 +67,8 @@ def get_users(api, df):
 
     df_users = pd.DataFrame()
 
+    df.reset_index(inplace=True)
+
     size = 100
     list_of_dfs = [df.loc[i : i + size - 1, :] for i in range(0, len(df), size)]
 
@@ -89,7 +91,7 @@ def get_users(api, df):
     return df_users
 
 
-FLOW_NAME="extract_twitter_data"
+FLOW_NAME = "extract_twitter_data"
 
 with Flow(
     FLOW_NAME,
@@ -116,7 +118,6 @@ with Flow(
     df_missing_tiwtter_names = get_missing_twitter_names(df=df_daos, api=api)
     df_users = get_users(api, df_daos)
 
-
     result_missing_names = df_to_s3_parquet(
         df_missing_tiwtter_names,
         aws_credentials,
@@ -134,5 +135,5 @@ with Flow(
     )
 
 if __name__ == "__main__":
-    # flow.run()
-    flow.register(project_name="datadrivendao")
+    flow.run()
+    # flow.register(project_name="datadrivendao")

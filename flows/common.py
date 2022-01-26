@@ -6,6 +6,7 @@ from datetime import datetime
 from datetime import datetime
 import pandas as pd
 
+
 @task(log_stdout=True)
 def df_to_s3_parquet(df, aws_credentials, bucket, file_name, service_name):
 
@@ -27,7 +28,7 @@ def df_to_s3_parquet(df, aws_credentials, bucket, file_name, service_name):
         df=df.reset_index(),
         path=path,
         pyarrow_additional_kwargs={
-            'coerce_timestamps': 'ms',
+            "coerce_timestamps": "ms",
         },
         boto3_session=session,
         index=False,

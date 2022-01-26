@@ -15,6 +15,7 @@ FLOW_NAME = "extract_snapshot_data"
 #     airbyte_server_host="34.206.52.76",
 # )
 
+
 @task(log_stdout=True)
 def extract_snapshot_expore_data():
 

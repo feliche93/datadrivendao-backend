@@ -31,7 +31,11 @@ combined AS (
         COALESCE(snapshot_spaces.twitter, twitter_screen_names.twitter) AS twitter,
         snapshot_spaces.github,
         snapshot_spaces.website,
-        REGEXP_REPLACE(snapshot_spaces.avatar, r'ipfs://', r'https://ipfs.io/ipfs/') AS avatar,
+        CASE 
+            WHEN CONTAINS_SUBSTR(snapshot_spaces.avatar, 'ipfs') THEN REGEXP_REPLACE(snapshot_spaces.avatar, r'ipfs://', r'https://ipfs.io/ipfs/')
+            WHEN snapshot_spaces.avatar = '' THEN NULL
+            ELSE NULL
+        END AS avatar,
         snapshot_spaces.network
     FROM snapshot_explore
     LEFT JOIN snapshot_spaces ON snapshot_explore.index = snapshot_spaces.id 
@@ -66,10 +70,9 @@ final AS (
         ) AS twitter_created_date,
         combined.github,
         combined.website,
-        CASE 
-            WHEN combined.avatar = '' THEN REPLACE(twitter_users.profile_image_url, '_normal','')
-            ELSE combined.avatar
-        END AS avatar,
+        --combined.avatar,
+        --twitter_users.profile_image_url,
+        COALESCE(REPLACE(twitter_users.profile_image_url, '_normal',''), combined.avatar) AS avatar,
         combined.network
     FROM combined
     LEFT JOIN twitter_users ON combined.twitter = twitter_users.screen_name

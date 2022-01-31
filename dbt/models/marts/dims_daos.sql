@@ -40,10 +40,9 @@ combined AS (
     FROM snapshot_explore
     LEFT JOIN snapshot_spaces ON snapshot_explore.index = snapshot_spaces.id 
     LEFT JOIN twitter_screen_names ON twitter_screen_names.id = snapshot_spaces.id
+    -- currently limit to more than 100 followers
+    WHERE followers >= 50
     ORDER BY followers DESC
-    -- currently only focusing on 500 DAOs
-    LIMIT 500
-
 ),
 
 final AS (

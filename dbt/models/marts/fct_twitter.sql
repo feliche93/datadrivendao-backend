@@ -1,12 +1,12 @@
 {{ config(materialized='table') }}
 
-WITH dim_daos AS (
+WITH dims_daos AS (
     SELECT *
-    FROM {{ ref('dim_daos') }}
+    FROM {{ ref('dims_daos') }}
 )
 
 SELECT
-    dim_daos.id AS dao_id,
+    dims_daos.id AS dao_id,
     twitter_users.created_at,
     DATE_DIFF(
         CURRENT_DATE(),
@@ -29,6 +29,6 @@ SELECT
     twitter_users.listed_count AS listed,
     twitter_users.favourites_count AS favourites,
     twitter_users.statuses_count AS statuses
-FROM dim_daos
-LEFT JOIN {{ source('raw_data', 'twitter_users') }} ON twitter_users.screen_name = dim_daos.twitter
+FROM dims_daos
+LEFT JOIN {{ source('raw_data', 'twitter_users') }} ON twitter_users.screen_name = dims_daos.twitter
 WHERE created_at IS NOT NULL

@@ -25,5 +25,5 @@ sources:
 
 
 models:
-  - name: dim_daos
+  - name: dims_daos
   - name: fct_twitter_account

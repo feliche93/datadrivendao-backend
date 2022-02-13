@@ -48,7 +48,7 @@ combined AS (
 final AS (
 
    SELECT DISTINCT
-        combined.id,
+        combined.id AS dao_id,
         combined.name, 
         combined.symbol,
         COALESCE(combined.location, twitter_users.location) AS location,

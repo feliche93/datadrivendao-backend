@@ -1,8 +1,8 @@
 {{ config(materialized='table') }}
 
-WITH dims_daos AS (
+WITH dim_dao AS (
     SELECT *
-    FROM {{ ref('dims_daos') }}
+    FROM {{ ref('dim_dao') }}
 ),
 
 twitter_users_scd AS (
@@ -11,7 +11,7 @@ twitter_users_scd AS (
 )
 
 SELECT DISTINCT
-    dims_daos.id AS dao_id,
+    dao_id,
     CAST(
         PARSE_TIMESTAMP(
         "%F",
@@ -23,5 +23,5 @@ SELECT DISTINCT
     twitter_users_scd.favourites_count AS favourites,
     twitter_users_scd.statuses_count AS statuses
 FROM twitter_users_scd
-INNER JOIN dims_daos ON twitter_users_scd.screen_name = dims_daos.twitter
+INNER JOIN dim_dao ON twitter_users_scd.screen_name = dim_dao.twitter
 WHERE scraped_at IS NOT NULL

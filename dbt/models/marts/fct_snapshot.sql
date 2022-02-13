@@ -1,17 +1,17 @@
 {{ config(materialized='table') }}
 
-WITH dims_daos AS (
+WITH dim_dao AS (
     SELECT *
-    FROM {{ ref('dims_daos') }}
+    FROM {{ ref('dim_dao') }}
 )
 
 SELECT
-    dims_daos.id AS dao_id,
+    dao_id,
     followers,
     proposals,
     voters_1d,
     proposals_1d,
     followers_1d
-FROM dims_daos
-LEFT JOIN {{ source('raw_data', 'snapshot_explore') }} ON snapshot_explore.index = dims_daos.id
-LEFT JOIN {{ source('raw_data', 'snapshot_spaces') }} ON snapshot_spaces.id = dims_daos.id
+FROM dim_dao
+LEFT JOIN {{ source('raw_data', 'snapshot_explore') }} ON snapshot_explore.index = dim_dao.dao_id
+LEFT JOIN {{ source('raw_data', 'snapshot_spaces') }} ON snapshot_spaces.id = dim_dao.dao_id

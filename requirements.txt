@@ -4,14 +4,19 @@
 #
 #    pip-compile requirements.in
 #
+aiohttp==3.7.4.post0
+    # via discord.py
 asn1crypto==1.4.0
     # via scramp
 async-generator==1.10
     # via
     #   trio
     #   trio-websocket
+async-timeout==3.0.1
+    # via aiohttp
 attrs==21.4.0
     # via
+    #   aiohttp
     #   outcome
     #   pytest
     #   trio
@@ -48,7 +53,9 @@ certifi==2021.10.8
 cffi==1.15.0
     # via cryptography
 chardet==4.0.0
-    # via requests
+    # via
+    #   aiohttp
+    #   requests
 click==8.0.3
     # via
     #   distributed
@@ -82,6 +89,8 @@ decorator==5.1.1
     # via jsonpath-ng
 deprecation==2.1.0
     # via postgrest-py
+discord.py==1.7.3
+    # via -r requirements.in
 distributed==2022.1.0
     # via prefect
 docker==5.0.3
@@ -158,6 +167,7 @@ idna==2.10
     #   rfc3986
     #   trio
     #   urllib3
+    #   yarl
 iniconfig==1.1.1
     # via pytest
 jinja2==3.0.3
@@ -188,6 +198,10 @@ msgpack==1.0.3
     # via
     #   distributed
     #   prefect
+multidict==6.0.2
+    # via
+    #   aiohttp
+    #   yarl
 mypy-extensions==0.4.3
     # via
     #   prefect
@@ -416,6 +430,7 @@ types-urllib3==1.26.7
     # via types-requests
 typing-extensions==4.0.1
     # via
+    #   aiohttp
     #   libcst
     #   pydantic
     #   typing-inspect
@@ -442,6 +457,8 @@ wsproto==1.0.0
     # via
     #   selenium-wire
     #   trio-websocket
+yarl==1.7.2
+    # via aiohttp
 zict==2.0.0
     # via distributed
 zstandard==0.17.0

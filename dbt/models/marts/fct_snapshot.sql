@@ -17,11 +17,11 @@ snapshot_spaces AS (
 
 SELECT
     dao_id,
-    followers,
-    proposals,
-    voters_1d,
-    proposals_1d,
-    followers_1d
+    followers AS total_followers,
+    proposals AS total_proposals,
+    voters_1d AS voters,
+    proposals_1d AS proposals,
+    followers_1d AS followers
 FROM dim_dao
 LEFT JOIN snapshot_explore ON snapshot_explore.index = dim_dao.dao_id
 LEFT JOIN snapshot_spaces ON snapshot_spaces.id = dim_dao.dao_id

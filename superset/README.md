@@ -7,3 +7,10 @@
 5. Added Caddyfile following tutorial https://caddyserver.com/docs/quick-starts/reverse-proxy
 6. Addded A and AAAA records pointing to IPs
 
+
+## EC2 Restart
+
+Change directory to superset.
+
+1. docker-compose down / up
+2. caddy start

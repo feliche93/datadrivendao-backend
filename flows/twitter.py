@@ -9,14 +9,14 @@ from flow_config import RUN_CONFIG, STORAGE
 
 
 @task(log_stdout=True)
-def get_dims_daos(service_account_info):
+def get_dim_dao(service_account_info):
 
     credentials = service_account.Credentials.from_service_account_info(
         service_account_info
     )
 
     sql = """
-        SELECT * FROM dbt.dims_daos
+        SELECT * FROM dbt.dim_dao
     """
 
     df = pd.read_gbq(sql, project_id="datadrivendao", credentials=credentials)
@@ -38,7 +38,7 @@ def get_missing_twitter_names(df, api):
         except IndexError as e:
             print(f"No twitter found for: {name}")
 
-    df.set_index("id", inplace=True)
+    df.set_index("dao_id", inplace=True)
 
     return df[["twitter"]]
 
@@ -113,7 +113,7 @@ with Flow(
         twitter_access_token_secret,
     )
 
-    df_daos = get_dims_daos(service_account_info=google_service_account)
+    df_daos = get_dim_dao(service_account_info=google_service_account)
 
     df_missing_tiwtter_names = get_missing_twitter_names(df=df_daos, api=api)
     df_users = get_users(api, df_daos)
@@ -135,5 +135,5 @@ with Flow(
     )
 
 if __name__ == "__main__":
-    flow.run()
-    # flow.register(project_name="datadrivendao")
+    # flow.run()
+    flow.register(project_name="datadrivendao")

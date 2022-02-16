@@ -24,11 +24,11 @@ SELECT
     ) AS days_since_created,
     --PARSE_TIMESTAMP("%a %b %d %H:%M:%S %SSSZ %Y", twitter_users.created_at),
     --EXTRACT(DATE  FROM twitter_users.created_at),
-    twitter_users.followers_count AS followers,
-    twitter_users.friends_count AS friends,
-    twitter_users.listed_count AS listed,
-    twitter_users.favourites_count AS favourites,
-    twitter_users.statuses_count AS statuses
+    twitter_users.followers_count AS total_followers,
+    twitter_users.friends_count AS total_friends,
+    twitter_users.listed_count AS total_listed,
+    twitter_users.favourites_count AS total_favourites,
+    twitter_users.statuses_count AS total_statuses
 FROM dim_dao
 LEFT JOIN {{ source('raw_data', 'twitter_users') }} ON twitter_users.screen_name = dim_dao.twitter
 WHERE created_at IS NOT NULL

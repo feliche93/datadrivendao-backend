@@ -12,7 +12,11 @@ snapshot_explore_scd AS (
 
 SELECT
     dao_id,
-    snapshot_explore_scd.scraped_at,
+    CAST(
+        PARSE_TIMESTAMP(
+        "%F",
+        SUBSTR(snapshot_explore_scd.scraped_at, 0, 10)
+    ) AS DATE) AS scraped_date,
     followers AS total_followers,
     proposals AS total_proposals,
     activeProposals AS active_proposals,

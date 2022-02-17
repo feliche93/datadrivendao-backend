@@ -112,3 +112,5 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
+
+PUBLIC_ROLE_LIKE = "Gamma"

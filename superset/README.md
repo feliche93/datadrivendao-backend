@@ -16,8 +16,9 @@ Change directory to superset.
 2. caddy start
 
 
-## Back Up Database
+## Caddy
 
-```
-sudo docker exec -t superset_db pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
-```
+https://caddyserver.com/docs/install#debian-ubuntu-raspbian
+
+1. If already in use `caddy stop`
+2. Start in background `caddy start`

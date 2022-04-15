@@ -52,4 +52,4 @@ push-ecr:
 # https://towardsdatascience.com/how-to-cut-your-aws-ecs-costs-with-fargate-spot-and-prefect-1a1ba5d2e2df#2587
 
 connect-airbyte:
-	ssh -i ~/.ssh/datadrivendao-kp.pem -L 8000:localhost:8000 -N -f ubuntu@18.209.229.133
+	ssh -i ~/.ssh/datadrivendao-kp.pem -L 8000:localhost:8000 -N -f ubuntu@34.236.242.156

@@ -37,11 +37,14 @@ def get_channel_messages(channel_id):
         params={'limit': 100}
     )
 
+    # every time when you fetch it's the earliest message
+
     return pd.json_normalize(response.json())
 
 
-guild_id = '883478451850473483' # DeveloperDAO
-channel_id = '883495211064524811' # Announcements
+
+guild_id = '848661014920691752' # Avegotchi Server
+channel_id = '848661014920691755' # Wilkommen
 
 df_guild_info = get_guild_info(guild_id)
 df_channel_info = get_channel_info(channel_id)

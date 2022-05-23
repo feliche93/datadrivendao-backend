@@ -1,3 +1,4 @@
+{{ config(materialized='table') }}
 
 WITH twitter_users AS (
     SELECT * 
@@ -24,4 +25,3 @@ SELECT
     total_favourites - LEAD(total_favourites, 1) OVER (PARTITION BY screen_name ORDER BY scraped_date DESC) AS favourites,
     total_statuses - LEAD(total_statuses, 1) OVER (PARTITION BY screen_name ORDER BY scraped_date DESC) AS statuses,
 FROM transformed
-WHERE screen_name = 'developer_dao'

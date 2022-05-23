@@ -1,8 +1,8 @@
 version: 2
 
 sources:
-  - name: raw_data
-    schema: raw_data
+  - name: twitter
+    schema: twitter
     # loaded_at_field: _loaded_at # configure for all sources
     # meta fields are rendered in auto-generated documentation
     meta:
@@ -11,19 +11,8 @@ sources:
 
     # Add tags to this source
     tags:
-      - snapshot
+      - twitter
 
     tables:
-      - name: snapshot_explore
-      - name: snapshot_spaces
-      - name: twitter_screen_names
-      - name: twitter_users
-      - name: snapshot_explore_scd
-      - name: snapshot_spaces_scd
-      - name: twitter_screen_names_scd
-      - name: twitter_users_scd
+      - name: users
 
-
-models:
-  - name: dim_dao
-  - name: fct_twitter_account

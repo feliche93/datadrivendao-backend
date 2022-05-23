@@ -34,6 +34,9 @@ def extract_snapshot_expore_data():
         lambda x: True if x == "true" or x is True else False
     )
 
+    spaces.to_parquet("gs://datadrivendao/file.parquet",
+               storage_options={"token": "/Users/felixvemmer/Desktop/web3/datadrivendao-backend/datadrivendao-42c52b51132d.json"})
+
     data = pd.DataFrame(json_data).drop(columns=["spaces"])
 
     explore_data = data.join(spaces)

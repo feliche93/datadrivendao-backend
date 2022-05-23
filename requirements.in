@@ -2,14 +2,12 @@ python-dotenv
 requests
 types-requests
 pydantic
-supabase-py
 prefect
 boto3
 prefect
 pandas
 pyarrow
 fastparquet
-awswrangler
 tweepy
 pandas-gbq
 google-auth
@@ -19,3 +17,5 @@ webdriver-manager
 selenium-wire
 undetected_chromedriver
 discord.py
+gcsfs
+pymongo

@@ -22,6 +22,7 @@ RUN_CONFIG = ECSRun(
 STORAGE = Docker(
     registry_url="262367897508.dkr.ecr.eu-central-1.amazonaws.com",
     image_name="datadrivendao",
+    image_tag="latest",
     dockerfile="Dockerfile",
 )
 

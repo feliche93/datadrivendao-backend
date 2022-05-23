@@ -1,55 +1,66 @@
-import pandas as pd
-import tweepy
-from prefect.tasks.secrets import PrefectSecret
-from google.oauth2 import service_account
-from prefect import task, Flow
+"""Module to extract Twitter data."""
 
-from common import df_to_s3_parquet
+import pandas as pd
+import requests
+import tweepy
+from prefect import Flow, task
+from prefect.tasks.secrets import PrefectSecret
+
+from common import df_to_gcs_parquet
 from flow_config import RUN_CONFIG, STORAGE
 
 
 @task(log_stdout=True)
-def get_dim_dao(service_account_info):
+def get_screen_names(api_route: str) -> list:
+    # sourcery skip: raise-specific-error
+    """Gets screen names from Twitter API.
 
-    credentials = service_account.Credentials.from_service_account_info(
-        service_account_info
-    )
+    Args:
+        api_route (str): API route to get screen names from.
 
-    sql = """
-        SELECT * FROM dbt.dim_dao
+    Raises:
+        Exception: If API call fails.
+
+    Returns:
+        list: List of screen names.
     """
 
-    df = pd.read_gbq(sql, project_id="datadrivendao", credentials=credentials)
+    response = requests.get(api_route)
 
-    return df
+    if response.status_code != 200:
+        raise Exception(f"Error: {response.status_code}")
 
+    twitter_profile_urls = response.json()
+    twitter_profile_urls = [e for e in twitter_profile_urls if e != "https://twitter.com/"]
+    twitter_profile_urls = [e for e in twitter_profile_urls if e is not None]
 
-@task(log_stdout=True)
-def get_missing_twitter_names(df, api):
+    screen_names = [url.split("https://twitter.com/")[-1] for url in twitter_profile_urls]
 
-    no_twitter = df[df["twitter"].isnull()]
-    names = no_twitter["name"].to_list()
+    screen_names = list(set(screen_names))
 
-    for name in names:
-        try:
-            user = api.search_users(q=name, count=1)
-            twitter = user[0]._json.get("screen_name")
-            df.loc[df["name"] == name, "twitter"] = twitter
-        except IndexError as e:
-            print(f"No twitter found for: {name}")
+    print(f"Found {len(screen_names)} DAOs")
 
-    df.set_index("dao_id", inplace=True)
-
-    return df[["twitter"]]
+    return screen_names
 
 
 @task(log_stdout=True)
 def auth_twitter(
-    twitter_consumer_key,
-    twitter_consumer_secret,
-    twitter_access_token,
-    twitter_access_token_secret,
-):
+    twitter_consumer_key: str,
+    twitter_consumer_secret: str,
+    twitter_access_token: str,
+    twitter_access_token_secret: str,
+) -> tweepy.API:  # sourcery skip: do-not-use-bare-except
+    """Creates tweepy API object.
+
+    Args:
+        twitter_consumer_key (str): Consumer key
+        twitter_consumer_secret (str): Consumer secret
+        twitter_access_token (str): Access tooken
+        twitter_access_token_secret (str): Twitter access token
+
+    Returns:
+        tweepy.API: API Instance
+    """
 
     try:
         auth = tweepy.OAuthHandler(twitter_consumer_key, twitter_consumer_secret)
@@ -57,36 +68,34 @@ def auth_twitter(
         api = tweepy.API(auth, wait_on_rate_limit=True)
 
     except:
-        print("An error occurred during the authentication")
+        print("An error occurred during the authentication")  # sourcery skip: do-not-use-bare-except
 
     return api
 
 
 @task(log_stdout=True)
-def get_users(api, df):
+def get_users(api: tweepy.API, screen_names: list) -> pd.DataFrame:
+    """Gets users from Twitter API.
+
+    Args:
+        api (tweepy.API): Instance of tweepy API
+        screen_names (list): List of screen names
+
+    Returns:
+        pd.DataFrame: DataFrame of users
+    """
 
     df_users = pd.DataFrame()
 
-    df.reset_index(inplace=True)
-
     size = 100
-    list_of_dfs = [df.loc[i : i + size - 1, :] for i in range(0, len(df), size)]
+    list_of_screen_names = [screen_names[ i : i + size] for i in range(0, len(screen_names), size)]
 
-    for df in list_of_dfs:
+    for list_screen_names in list_of_screen_names:
 
-        names = df[df["twitter"].notnull()]["twitter"].to_list()
-
-        # try:
-        users = api.lookup_users(screen_name=names)
+        users = api.lookup_users(screen_name=list_screen_names)
         json_response = [result._json for result in users]
+
         df_users = df_users.append(pd.json_normalize(json_response))
-        # except tweepy.TweepError as e:
-        #     print(f"An error occurred: {e}")
-
-        list_type_columns = df_users.applymap(lambda x: isinstance(x, list)).any()
-        list_type_columns = list_type_columns.index[list_type_columns].to_list()
-
-        df_users.drop(columns=list_type_columns, inplace=True)
 
     return df_users
 
@@ -99,12 +108,13 @@ with Flow(
     run_config=RUN_CONFIG,
 ) as flow:
 
+    api_route = "https://datadrivendao.xyz/api/daos"
+    host = "mongodb://159.223.147.152:56728/"
     google_service_account = PrefectSecret("GOOGLE_SERVICE_ACCOUNT")
     twitter_consumer_key = PrefectSecret("TWITTER_CONSUMER_KEY")
     twitter_consumer_secret = PrefectSecret("TWITTER_CONSUMER_SECRET")
     twitter_access_token = PrefectSecret("TWITTER_ACCESS_TOKEN")
     twitter_access_token_secret = PrefectSecret("TWITTER_ACCESS_TOKEN_SECRET")
-    aws_credentials = PrefectSecret("AWS_CREDENTIALS")
 
     api = auth_twitter(
         twitter_consumer_key,
@@ -113,24 +123,15 @@ with Flow(
         twitter_access_token_secret,
     )
 
-    df_daos = get_dim_dao(service_account_info=google_service_account)
+    screen_names = get_screen_names(api_route)
 
-    df_missing_tiwtter_names = get_missing_twitter_names(df=df_daos, api=api)
-    df_users = get_users(api, df_daos)
+    df_users = get_users(api, screen_names)
 
-    result_missing_names = df_to_s3_parquet(
-        df_missing_tiwtter_names,
-        aws_credentials,
-        bucket="datadrivendao",
-        file_name="twitter_screen_names",
-        service_name="twitter",
-    )
-
-    result_users = df_to_s3_parquet(
+    result_users = df_to_gcs_parquet(
         df_users,
-        aws_credentials,
+        google_service_account,
         bucket="datadrivendao",
-        file_name="twitter_users",
+        file_name="users",
         service_name="twitter",
     )
 

@@ -8,9 +8,7 @@ setup:
 	(\
 		pyenv virtualenv datadrivendao; \
 		. ~/.pyenv/versions/datadrivendao/bin/activate ; \
-		python3 -m pip install -U pip; \
-		python -m pip install pip-tools; \
-		python -m pip install --upgrade pip; \
+		python3 -m pip install pip-tools; pip install 'pip<22' \
 		pip-compile requirements.in; \
 		pip-compile requirements-dev.in; \
 		pre-commit install; \
@@ -52,4 +50,8 @@ push-ecr:
 # https://towardsdatascience.com/how-to-cut-your-aws-ecs-costs-with-fargate-spot-and-prefect-1a1ba5d2e2df#2587
 
 connect-airbyte:
-	ssh -i ~/.ssh/datadrivendao-kp.pem -L 8000:localhost:8000 -N -f ubuntu@34.236.242.156
+	ssh -i ~/.ssh/datadrivendao-kp.pem -L 8001:localhost:8000 -N -f ec2-user@35.153.39.95
+
+
+ssh-airbyte:
+	ssh -i ~/.ssh/datadrivendao-kp.pem ec2-user@35.153.39.95

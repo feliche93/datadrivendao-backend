@@ -2,7 +2,6 @@
 
 from prefect import task
 from datetime import datetime
-from datetime import datetime
 import pandas as pd
 import numpy as np
 from google.oauth2 import service_account

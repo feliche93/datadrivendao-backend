@@ -18,3 +18,12 @@ sources:
       - name: snapshot_spaces
       - name: twitter_screen_names
       - name: twitter_users
+      - name: snapshot_explore_scd
+      - name: snapshot_spaces_scd
+      - name: twitter_screen_names_scd
+      - name: twitter_users_scd
+
+
+models:
+  - name: dim_dao
+  - name: fct_twitter_account

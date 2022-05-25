@@ -19,3 +19,5 @@ undetected_chromedriver
 discord.py
 gcsfs
 pymongo
+gspread
+df2gspread

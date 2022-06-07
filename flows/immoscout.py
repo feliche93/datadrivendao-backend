@@ -111,7 +111,6 @@ def check_listings(google_service_account, telegram_token):
                 'Friedrichshain (Friedrichshain)',
                 'Kreuzberg (Kreuzberg)',
                 'Lichtenberg (Lichtenberg)',
-
             ]
 
             if quarter not in desired_quarters:
